@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Denavit Hartenberg</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input {
+            margin: 5px;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Denavit Hartenberg</h1>
+
+    <p>Introduce los parámetros Denavit-Hartenberg para cada eslabón:</p>
+
+    <div id="inputs"></div>
+    <button onclick="addJoint()">Añadir Eslabón</button>
+    <button onclick="calculate()">Calcular Transformaciones</button>
+
+    <h2>Matrices de Transformación:</h2>
+    <div id="matrices"></div>
+
+    <h2>Multiplicación de las matrices (vectores 4x1):</h2>
+    <pre id="multiplication" class="code-block"></pre>
+
+    <script>
+        let joints = [];
+        
+        function addJoint() {
+            let jointDiv = document.createElement('div');
+            jointDiv.innerHTML = `
+                <h3>Eslabón ${joints.length + 1}</h3>
+                <label>Theta (°): <input type="number" id="theta-${joints.length}" value="0"></label>
+                <label>d: <input type="number" id="d-${joints.length}" value="0"></label>
+                <label>a: <input type="number" id="a-${joints.length}" value="0"></label>
+                <label>Alpha (°): <input type="number" id="alpha-${joints.length}" value="0"></label>
+                <br>
+            `;
+            document.getElementById('inputs').appendChild(jointDiv);
+            joints.push(joints.length);
+        }
+
+        function calculate() {
+            let A = [];  // Matrices de transformación
+            let P_inicial = [[0], [0], [0], [1]]; // Vector columna 4x1
+            let matricesDiv = document.getElementById('matrices');
+            matricesDiv.innerHTML = ''; // Limpiar resultados anteriores
+
+            // Obtener los valores de cada eslabón y calcular las matrices
+            for (let i = 0; i < joints.length; i++) {
+                let theta = parseFloat(document.getElementById(`theta-${i}`).value) * Math.PI / 180;  // Convertir a radianes
+                let d = parseFloat(document.getElementById(`d-${i}`).value);
+                let a = parseFloat(document.getElementById(`a-${i}`).value);
+                let alpha = parseFloat(document.getElementById(`alpha-${i}`).value) * Math.PI / 180;  // Convertir a radianes
+
+                // Crear la matriz de transformación para el eslabón actual
+                let A_i = [
+                    [Math.cos(theta), -Math.sin(theta) * Math.cos(alpha), Math.sin(theta) * Math.sin(alpha), a * Math.cos(theta)],
+                    [Math.sin(theta), Math.cos(theta) * Math.cos(alpha), -Math.cos(theta) * Math.sin(alpha), a * Math.sin(theta)],
+                    [0, Math.sin(alpha), Math.cos(alpha), d],
+                    [0, 0, 0, 1]
+                ];
+
+                // Guardar la matriz
+                A.push(A_i);
+
+                // Mostrar cada matriz A_i en la página como una tabla HTML
+                let matrixHTML = `<strong>Matriz A${i + 1}:</strong><br>` + matrixToHTML(A_i);
+                matricesDiv.innerHTML += matrixHTML;
+            }
+
+            // Multiplicación de derecha a izquierda con el vector 4x1
+            let T_parcial = P_inicial; // Comienza multiplicando por el vector inicial [0 0 0 1]
+            let multiplicationResult = `<strong>Multiplicando A${joints.length} con el vector [0, 0, 0, 1]:</strong><br>`;
+
+            T_parcial = multiplyMatrixVector(A[joints.length - 1], T_parcial); // Multiplicar la última matriz con el vector inicial
+            multiplicationResult += vectorToHTML(T_parcial) + '<br><br>';
+
+            // Multiplicar las matrices restantes
+            for (let i = joints.length - 2; i >= 0; i--) {
+                multiplicationResult += `<strong>Multiplicando A${i + 1} con el resultado parcial:</strong><br>`;
+                T_parcial = multiplyMatrixVector(A[i], T_parcial); // Multiplicación con el vector de 4x1
+                multiplicationResult += vectorToHTML(T_parcial) + '<br><br>';
+            }
+
+            document.getElementById('multiplication').innerHTML = multiplicationResult;
+        }
+
+        // Función para multiplicar una matriz 4x4 con un vector 4x1
+        function multiplyMatrixVector(matrix, vector) {
+            let result = [];
+            for (let i = 0; i < 4; i++) {
+                result[i] = [0];
+                for (let j = 0; j < 4; j++) {
+                    result[i][0] += matrix[i][j] * vector[j][0];
+                }
+            }
+            return result;
+        }
+
+        // Convertir una matriz 4x4 a tabla HTML
+        function matrixToHTML(matrix) {
+            let html = '<table>';
+            matrix.forEach(row => {
+                html += '<tr>';
+                row.forEach(cell => {
+                    html += `<td>${cell.toFixed(4)}</td>`;
+                });
+                html += '</tr>';
+            });
+            html += '</table>';
+            return html;
+        }
+
+        // Convertir un vector 4x1 a tabla HTML
+        function vectorToHTML(vector) {
+            let html = '<table>';
+            vector.forEach(row => {
+                html += '<tr>';
+                html += `<td>${row[0].toFixed(4)}</td>`;
+                html += '</tr>';
+            });
+            html += '</table>';
+            return html;
+        }
+    </script>
+</body>
+</html>
