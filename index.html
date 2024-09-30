@@ -3,47 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Denavit Hartenberg</title>
+    <title>Denavit-Hartenberg y Matrices</title>
     <style>
+        /* Estilos generales de la página */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #f4f4f4;
+            background-color: #f4f4f4; /* Fondo gris claro */
+            color: #333; /* Color de texto */
         }
+        
+        /* Estilos para títulos */
         h1 {
             text-align: center;
-            color: #333;
+            color: #0056b3; /* Color de título principal */
         }
-        input {
+        h2 {
+            text-align: center;
+            color: #333; /* Color de subtítulos */
+        }
+        
+        /* Estilos del menú de navegación */
+        nav {
+            margin-bottom: 20px;
+            text-align: center;
+            background-color: #007bff; /* Fondo del menú en azul */
+            padding: 10px;
+            border-radius: 5px;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: white; /* Texto del menú en blanco */
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilos de las secciones */
+        section {
+            display: none;
+            background-color: white; /* Fondo blanco en las secciones */
+            padding: 20px;
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave para destacar las secciones */
+        }
+        
+        /* Estilos para inputs, selectores y botones */
+        input, select {
             margin: 5px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
         }
+        
+        /* Estilos para botones */
+        button {
+            background-color: #28a745; /* Fondo verde para los botones */
+            color: white; /* Texto en blanco */
+            border: none;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838; /* Cambio de color en hover para los botones */
+        }
+
+        /* Estilos para tablas */
         table {
             border-collapse: collapse;
             margin: 10px 0;
+            width: 100%; /* Hacer las tablas más anchas */
         }
         table, th, td {
-            border: 1px solid black;
+            border: 1px solid #ddd; /* Bordes suaves en las tablas */
             padding: 8px;
             text-align: center;
         }
+        th {
+            background-color: #007bff; /* Fondo azul para encabezados */
+            color: white; /* Texto blanco en encabezados */
+        }
+        td {
+            background-color: #f9f9f9; /* Fondo gris claro para las celdas */
+        }
+
+        /* Estilo para vector en el resultado final */
+        pre {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        #contenido { width: 800px; margin: 0 auto; }
     </style>
 </head>
 <body>
-    <h1>Denavit Hartenberg</h1>
 
-    <p>Introduce los parámetros Denavit-Hartenberg para cada eslabón:</p>
+    <h1>ROBOTICA 7MO SEMESTRE</h1>
 
-    <div id="inputs"></div>
-    <button onclick="addJoint()">Añadir Eslabón</button>
-    <button onclick="calculate()">Calcular Transformaciones</button>
+    <nav>
+        <a href="#" onclick="mostrarSeccion('inicio')">Inicio</a>
+        <a href="#" onclick="mostrarSeccion('formularioDH')">Formulario Denavit-Hartenberg</a>
+        <a href="#" onclick="mostrarSeccion('calculadoraDH')">Calculadora de Matrices DH</a>
+        <a href="#" onclick="mostrarSeccion('calculadoraRotacion')">Matrices de Rotación y Traslación</a>
+    </nav>
 
-    <h2>Matrices de Transformación:</h2>
-    <div id="matrices"></div>
+    <section id="inicio">
+        <p>Elige una opción en el menú para comenzar.</p>
+    </section>
 
-    <h2>Multiplicación de las matrices (vectores 4x1):</h2>
-    <pre id="multiplication" class="code-block"></pre>
+    <!-- Intercambiado el contenido de Formulario Denavit-Hartenberg con Calculadora de Matrices DH -->
+    <section id="calculadoraDH">
+        <h2>Formulario Denavit-Hartenberg</h2>
+        <p>Introduce los parámetros Denavit-Hartenberg para cada eslabón:</p>
+
+        <div id="inputs"></div>
+        <button onclick="addJoint()">Añadir Eslabón</button>
+        <button onclick="calculate()">Calcular Transformaciones</button>
+
+        <h3>Matrices de Transformación:</h3>
+        <div id="matrices"></div>
+
+        <h3>Multiplicación de las matrices (vectores 4x1):</h3>
+        <pre id="multiplication" class="code-block"></pre>
+    </section>
+
+    <section id="formularioDH">
+        <h2>Asignación del Eje Z</h2>
+        <p>El eje <strong>Z</strong> se asigna según el tipo de movimiento de la articulación:</p>
+        <ul>
+            <li>
+                <strong>Articulaciones rotacionales:</strong> El eje Z se alinea con el eje de rotación de la articulación.
+                <p class="example">Ejemplo: Si la articulación rota, el eje Z se alineará con la dirección del giro.</p>
+            </li>
+            <li>
+                <strong>Articulaciones prismáticas (lineales):</strong> El eje Z se alinea con la dirección del movimiento de traslación.
+                <p class="example">Ejemplo: Si la articulación se mueve en línea recta, el eje Z se colocará a lo largo de esa trayectoria.</p>
+            </li>
+        </ul>
+        <p>El eje Z comienza en la intersección con el eje Z anterior o con el eje X del sistema de referencia anterior.</p>
+
+        <h2>Asignación del Eje X</h2>
+        <p>Una vez asignado el eje Z, el siguiente paso es definir el eje <strong>X</strong>, que depende de la relación entre los ejes Z de dos articulaciones consecutivas:</p>
+        
+        <ul>
+            <li>
+                <strong>Ejes Z colineales:</strong> 
+                <ul>
+                    <li>Si el siguiente eje Z es rotacional, el eje X se desfasará un ángulo <em>θ</em> para evitar pasar por alto la rotación.</li>
+                    <li>Si el siguiente eje Z es de traslación, el eje X mantiene la misma orientación que el eje X anterior.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Ejes Z paralelos:</strong> El eje X se toma como la línea perpendicular que une ambos ejes Z.
+                <p class="example">Ejemplo: El eje X pasa por el eslabón que conecta ambas articulaciones. Si los eslabones están a diferente altura, conviene que el eje X siga la misma altura.</p>
+            </li>
+            <li>
+                <strong>Ejes Z intersectantes:</strong> Se usa la <strong>regla de la mano derecha</strong>:
+                <ul>
+                    <li>El dedo índice apunta hacia el eje Z anterior.</li>
+                    <li>El dedo medio apunta hacia el eje Z siguiente.</li>
+                    <li>El dedo pulgar indica la dirección del eje X.</li>
+                </ul>
+                <p>El eje X se ubica en el punto de intersección entre los ejes Z anteriores y siguientes.</p>
+            </li>
+            <li>
+                <strong>Ejes Z antilíneas:</strong> Hay una única línea perpendicular que une ambos ejes Z. Esa línea se toma como el eje X.
+            </li>
+        </ul>
+
+        <h2>Punto Final de la Cadena Cinemática</h2>
+        <p>El punto final (la herramienta del robot) también debe tener un sistema de ejes auxiliar que mantenga la misma orientación que los ejes X y Z anteriores.</p>
+
+        <h2>Pasos para el Movimiento del Sistema de Coordenadas</h2>
+        <ul>
+            <li><strong>Rotar</strong> alrededor del eje Z anterior un ángulo <em>θ</em> para hacer que los ejes X sean paralelos.</li>
+            <li><strong>Trasladar</strong> a lo largo del eje Z anterior una distancia <em>d</em> para alinear los ejes X.</li>
+            <li><strong>Trasladar</strong> a lo largo del eje X una distancia <em>a</em> para que los orígenes de los ejes Z se unan.</li>
+            <li><strong>Rotar</strong> alrededor del eje X anterior un ángulo <em>α</em> para alinear los ejes Z.</li>
+        </ul>
+
+        <h2>Matriz de Transformación Denavit-Hartenberg</h2>
+        <p>La matriz de transformación general de Denavit-Hartenberg para trasladar y rotar el sistema de coordenadas de una articulación respecto a la anterior está dada por:</p>
+        
+        <div class="matrix-container">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Cos(θ)</td>
+                        <td>-Sin(θ)Cos(α)</td>
+                        <td>Sin(θ)Sin(α)</td>
+                        <td>aCos(θ)</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sin(θ)</td>
+                        <td>Cos(θ)Cos(α)</td>
+                        <td>-Cos(θ)Sin(α)</td>
+                        <td>aSin(θ)</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>Sin(α)</td>
+                        <td>Cos(α)</td>
+                        <td>d</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Aquí, los parámetros son:</p>
+        <ul>
+            <li><strong>θ:</strong> El ángulo de rotación alrededor del eje Z anterior.</li>
+            <li><strong>d:</strong> La distancia a lo largo del eje Z anterior.</li>
+            <li><strong>a:</strong> La distancia entre los orígenes de los ejes Z.</li>
+            <li><strong>α:</strong> El ángulo de rotación alrededor del eje X anterior.</li>
+        </ul>
+    </section>
+
+    <section id="calculadoraRotacion">
+        <h2>Calculadora de Matrices de Rotación y Traslación</h2>
+        
+        <p>Ingrese el número de transformaciones:</p>
+        <input type="number" id="numTransformaciones" value="1" min="1">
+        <button onclick="generarInputs()">Generar Transformaciones</button>
+        
+        <div id="inputsRotacion"></div>
+        <button onclick="calcularTransformaciones()">Calcular Transformaciones</button>
+        
+        <h3>Matrices de Transformación:</h3>
+        <div id="matricesRotacion"></div>
+        
+        <h3>Coordenadas Finales:</h3>
+        <pre id="coordenadasFinales"></pre>
+    </section>
 
     <script>
+        // Mostrar la sección seleccionada
+        function mostrarSeccion(seccionId) {
+            const secciones = document.querySelectorAll('section');
+            secciones.forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(seccionId).style.display = 'block';
+        }
+
+        // Inicialmente mostrar la sección de inicio
+        mostrarSeccion('inicio');
+
+        // --- Código del formulario Denavit-Hartenberg ---
         let joints = [];
         
         function addJoint() {
@@ -73,7 +294,6 @@
                 let a = parseFloat(document.getElementById(`a-${i}`).value);
                 let alpha = parseFloat(document.getElementById(`alpha-${i}`).value) * Math.PI / 180;  // Convertir a radianes
 
-                // Crear la matriz de transformación para el eslabón actual
                 let A_i = [
                     [Math.cos(theta), -Math.sin(theta) * Math.cos(alpha), Math.sin(theta) * Math.sin(alpha), a * Math.cos(theta)],
                     [Math.sin(theta), Math.cos(theta) * Math.cos(alpha), -Math.cos(theta) * Math.sin(alpha), a * Math.sin(theta)],
@@ -81,47 +301,185 @@
                     [0, 0, 0, 1]
                 ];
 
-                // Guardar la matriz
                 A.push(A_i);
 
-                // Mostrar cada matriz A_i en la página como una tabla HTML
                 let matrixHTML = `<strong>Matriz A${i + 1}:</strong><br>` + matrixToHTML(A_i);
                 matricesDiv.innerHTML += matrixHTML;
             }
 
-            // Multiplicación de derecha a izquierda con el vector 4x1
-            let T_parcial = P_inicial; // Comienza multiplicando por el vector inicial [0 0 0 1]
-            let multiplicationResult = `<strong>Multiplicando A${joints.length} con el vector [0, 0, 0, 1]:</strong><br>`;
+            let T_parcial = P_inicial;
+            let multiplicationResult = `<strong>Multiplicando A${joints.length} con el vector [0, 0, 0, 1]^T:</strong><br>`;
 
-            T_parcial = multiplyMatrixVector(A[joints.length - 1], T_parcial); // Multiplicar la última matriz con el vector inicial
-            multiplicationResult += vectorToHTML(T_parcial) + '<br><br>';
-
-            // Multiplicar las matrices restantes
-            for (let i = joints.length - 2; i >= 0; i--) {
-                multiplicationResult += `<strong>Multiplicando A${i + 1} con el resultado parcial:</strong><br>`;
-                T_parcial = multiplyMatrixVector(A[i], T_parcial); // Multiplicación con el vector de 4x1
-                multiplicationResult += vectorToHTML(T_parcial) + '<br><br>';
+            // Multiplicar las matrices de transformación
+            for (let i = joints.length - 1; i >= 0; i--) {
+                T_parcial = multiply(A[i], T_parcial);
+                multiplicationResult += matrixToHTML(T_parcial);
             }
 
             document.getElementById('multiplication').innerHTML = multiplicationResult;
         }
 
-        // Función para multiplicar una matriz 4x4 con un vector 4x1
-        function multiplyMatrixVector(matrix, vector) {
-            let result = [];
-            for (let i = 0; i < 4; i++) {
-                result[i] = [0];
-                for (let j = 0; j < 4; j++) {
-                    result[i][0] += matrix[i][j] * vector[j][0];
+        function matrixToHTML(matrix) {
+            let html = '<table>';
+            for (let i = 0; i < matrix.length; i++) {
+                html += '<tr>';
+                for (let j = 0; j < matrix[i].length; j++) {
+                    html += `<td>${matrix[i][j].toFixed(4)}</td>`;
+                }
+                html += '</tr>';
+            }
+            html += '</table>';
+            return html;
+        }
+
+        function multiply(A, B) {
+            let result = Array(A.length).fill(0).map(() => Array(B[0].length).fill(0));
+            for (let i = 0; i < A.length; i++) {
+                for (let j = 0; j < B[0].length; j++) {
+                    for (let k = 0; k < B.length; k++) {
+                        result[i][j] += A[i][k] * B[k][j];
+                    }
                 }
             }
             return result;
         }
 
-        // Convertir una matriz 4x4 a tabla HTML
-        function matrixToHTML(matrix) {
+        // --- Código de la calculadora de matrices de rotación y traslación ---
+        function generarInputs() {
+            const numTransformaciones = parseInt(document.getElementById('numTransformaciones').value);
+            const inputsDiv = document.getElementById('inputsRotacion');
+            inputsDiv.innerHTML = ''; // Limpiar inputs previos
+            
+            for (let i = 0; i < numTransformaciones; i++) {
+                const transformationDiv = document.createElement('div');
+                transformationDiv.innerHTML = `
+                    <h3>Transformación ${i + 1}</h3>
+                    <label>Tipo: 
+                        <select id="tipo-${i}">
+                            <option value="traslacion">Traslación</option>
+                            <option value="rotacion">Rotación</option>
+                        </select>
+                    </label>
+                    <label>Eje (i, j, k): <input type="text" id="eje-${i}" value="i"></label>
+                    <label>Cantidad: <input type="number" id="cantidad-${i}" value="0"></label>
+                    <br>
+                `;
+                inputsDiv.appendChild(transformationDiv);
+            }
+        }
+
+        function calcularTransformaciones() {
+            const numTransformaciones = parseInt(document.getElementById('numTransformaciones').value);
+            const matrices = [];
+            let matricesDiv = document.getElementById('matricesRotacion');
+            matricesDiv.innerHTML = ''; // Limpiar matrices previas
+            
+            for (let i = 0; i < numTransformaciones; i++) {
+                const tipo = document.getElementById(`tipo-${i}`).value;
+                const eje = document.getElementById(`eje-${i}`).value;
+                const cantidad = parseFloat(document.getElementById(`cantidad-${i}`).value);
+                let matriz;
+
+                if (tipo === "traslacion") {
+                    matriz = generarMatrizTraslacion(eje, cantidad);
+                } else if (tipo === "rotacion") {
+                    matriz = generarMatrizRotacion(eje, cantidad);
+                } else {
+                    alert("Tipo de movimiento no válido.");
+                    return;
+                }
+
+                matrices.push(matriz);
+                matricesDiv.innerHTML += `<strong>Matriz de Transformación ${i + 1}:</strong><br>${matrizToHTML(matriz)}<br>`;
+            }
+
+            // Inicializar el vector de posición [0, 0, 0, 1]^T
+            let P = [0, 0, 0, 1];
+
+            // Multiplicación de matrices en orden inverso
+            for (let i = matrices.length - 1; i >= 0; i--) {
+                P = multiplicarMatrizVector(matrices[i], P);
+            }
+
+            // Mostrar las coordenadas finales (x, y, z)
+            document.getElementById('coordenadasFinales').innerHTML = `[${P[0].toFixed(4)}, ${P[1].toFixed(4)}, ${P[2].toFixed(4)}]`;
+        }
+
+        function generarMatrizTraslacion(eje, unidades) {
+            let T = [
+                [1, 0, 0, 0],
+                [0, 1, 0, 0],
+                [0, 0, 1, 0],
+                [0, 0, 0, 1]
+            ];
+
+            switch (eje.toLowerCase()) {
+                case 'i':
+                    T[0][3] = unidades;
+                    break;
+                case 'j':
+                    T[1][3] = unidades;
+                    break;
+                case 'k':
+                    T[2][3] = unidades;
+                    break;
+                default:
+                    alert("Eje no válido.");
+            }
+
+            return T;
+        }
+
+        function generarMatrizRotacion(eje, grados) {
+            const radianes = grados * Math.PI / 180;
+            let T;
+
+            switch (eje.toLowerCase()) {
+                case 'i':
+                    T = [
+                        [1, 0, 0, 0],
+                        [0, Math.cos(radianes), -Math.sin(radianes), 0],
+                        [0, Math.sin(radianes), Math.cos(radianes), 0],
+                        [0, 0, 0, 1]
+                    ];
+                    break;
+                case 'j':
+                    T = [
+                        [Math.cos(radianes), 0, Math.sin(radianes), 0],
+                        [0, 1, 0, 0],
+                        [-Math.sin(radianes), 0, Math.cos(radianes), 0],
+                        [0, 0, 0, 1]
+                    ];
+                    break;
+                case 'k':
+                    T = [
+                        [Math.cos(radianes), -Math.sin(radianes), 0, 0],
+                        [Math.sin(radianes), Math.cos(radianes), 0, 0],
+                        [0, 0, 1, 0],
+                        [0, 0, 0, 1]
+                    ];
+                    break;
+                default:
+                    alert("Eje no válido.");
+                    return;
+            }
+
+            return T;
+        }
+
+        function multiplicarMatrizVector(matriz, vector) {
+            let resultado = [0, 0, 0, 0];
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    resultado[i] += matriz[i][j] * vector[j];
+                }
+            }
+            return resultado;
+        }
+
+        function matrizToHTML(matriz) {
             let html = '<table>';
-            matrix.forEach(row => {
+            matriz.forEach(row => {
                 html += '<tr>';
                 row.forEach(cell => {
                     html += `<td>${cell.toFixed(4)}</td>`;
@@ -131,18 +489,18 @@
             html += '</table>';
             return html;
         }
-
-        // Convertir un vector 4x1 a tabla HTML
-        function vectorToHTML(vector) {
-            let html = '<table>';
-            vector.forEach(row => {
-                html += '<tr>';
-                html += `<td>${row[0].toFixed(4)}</td>`;
-                html += '</tr>';
-            });
-            html += '</table>';
-            return html;
-        }
     </script>
+
+    <footer> 
+        <h1></h1>
+        <h1></h1>
+        <h1></h1>
+        <center>
+            <div id="contenido">
+            SHUGO TENSHI - TODOS LOS DEREHOS RESERVADOS
+            </div>
+            </center>
+    </footer>
 </body>
 </html>
+
