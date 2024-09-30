@@ -5,102 +5,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Denavit-Hartenberg y Matrices</title>
     <style>
-        /* Estilos generales de la página */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #f4f4f4; /* Fondo gris claro */
-            color: #333; /* Color de texto */
+            background-color: #f4f4f4;
+            color: #333;
         }
-        
-        /* Estilos para títulos */
+
+        h1, h2 {
+            text-align: center;
+        }
+
         h1 {
-            text-align: center;
-            color: #0056b3; /* Color de título principal */
+            color: #0056b3;
         }
+
         h2 {
-            text-align: center;
-            color: #333; /* Color de subtítulos */
+            color: #333;
         }
-        
-        /* Estilos del menú de navegación */
+
         nav {
             margin-bottom: 20px;
             text-align: center;
-            background-color: #007bff; /* Fondo del menú en azul */
+            background-color: #007bff;
             padding: 10px;
             border-radius: 5px;
         }
+
         nav a {
             margin: 0 15px;
             text-decoration: none;
-            color: white; /* Texto del menú en blanco */
+            color: white;
             font-weight: bold;
         }
+
         nav a:hover {
             text-decoration: underline;
         }
 
-        /* Estilos de las secciones */
         section {
             display: none;
-            background-color: white; /* Fondo blanco en las secciones */
+            background-color: white;
             padding: 20px;
-            border-radius: 8px; /* Bordes redondeados */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave para destacar las secciones */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        
-        /* Estilos para inputs, selectores y botones */
-        input, select {
+
+        input, select, button {
             margin: 5px;
             padding: 8px;
-            border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 14px;
         }
-        
-        /* Estilos para botones */
+
         button {
-            background-color: #28a745; /* Fondo verde para los botones */
-            color: white; /* Texto en blanco */
+            background-color: #28a745;
+            color: white;
             border: none;
             padding: 10px 15px;
-            margin: 10px 0;
-            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #218838; /* Cambio de color en hover para los botones */
         }
 
-        /* Estilos para tablas */
+        button:hover {
+            background-color: #218838;
+        }
+
         table {
             border-collapse: collapse;
+            width: 100%;
+            max-width: 100%;
             overflow-x: auto;
-            display: block;
-        }
-        table, th, td {
-            border: 1px solid #ddd; /* Bordes suaves en las tablas */
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #007bff; /* Fondo azul para encabezados */
-            color: white; /* Texto blanco en encabezados */
-        }
-        td {
-            background-color: #f9f9f9; /* Fondo gris claro para las celdas */
         }
 
-        /* Estilo para vector en el resultado final */
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
         pre {
             background-color: #f0f0f0;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
+            overflow-x: auto;
         }
-        #contenido { width: 800px; margin: 0 auto; }
+
+        #contenido {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Media Queries para dispositivos móviles */
+        @media (max-width: 768px) {
+            body {
+                margin: 10px;
+            }
+
+            nav a {
+                display: block;
+                margin: 10px 0;
+            }
+
+            section {
+                padding: 10px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            input, select, button {
+                font-size: 12px;
+                padding: 5px;
+            }
+
+            button {
+                padding: 8px 12px;
+            }
+
+            #contenido { max-width: 100%; margin: 0 auto; padding: 0 20px; box-sizing: border-box; }
+        }
     </style>
 </head>
 <body>
